@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
+#-------------------------- Page Configuration -------------------------
 st.set_page_config(
     page_title="Customer Segmentation",
     page_icon="👥",
@@ -183,39 +183,3 @@ if predict:
     with st.expander("🔎 View Customer Input"):
         st.dataframe(input_data, use_container_width=True, hide_index=True)
 
-# ---------- Distribution ----------
-st.markdown('<div class="section-title">📈 Customer Segment Distribution</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="section-subtitle">Distribution of customers across the three K-Means segments.</div>',
-    unsafe_allow_html=True
-)
-
-distribution = pd.DataFrame({
-    "Segment": ["High-Value", "Low-Value / Low-Conversion", "Deal-Oriented / Digital"],
-    "Customers": [750, 1035, 455]
-}).set_index("Segment")
-
-left, right = st.columns([2.3, 1])
-with left:
-    st.bar_chart(distribution, height=350)
-with right:
-    st.metric("High-Value", "750 customers")
-    st.metric("Low-Value / Low-Conversion", "1,035 customers")
-    st.metric("Deal-Oriented / Digital", "455 customers")
-
-# ---------- Profile table ----------
-st.markdown('<div class="section-title">📋 Segment Profile Comparison</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="section-subtitle">Average customer characteristics identified for each K-Means segment.</div>',
-    unsafe_allow_html=True
-)
-
-display_profile = cluster_profile.copy()
-display_profile.index = ["High-Value", "Low-Value / Low-Conversion", "Deal-Oriented / Digital"]
-
-st.dataframe(display_profile.round(2), use_container_width=True)
-
-st.caption(
-    "K-Means model • Features: Income, Recency, Tenure, Spending, Purchases, "
-    "Deal Purchases, Web Visits and Children"
-)
